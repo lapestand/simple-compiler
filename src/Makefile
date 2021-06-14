@@ -1,0 +1,67 @@
+#
+# Filename:    Makefile
+# Author:      Izzet Yilmaz
+# Dated:       May 15, 2021
+# Description: Makefile for the simple compiler
+#
+
+SHELL := /bin/sh
+MAKE  := make
+ROOT  := ../src
+COMPILER_DIR  := ./compiler
+
+# Directories
+# INCLUDES := ./compiler
+# BIN_DIR  := ./bin
+
+CC      := javac
+RM      := rm
+JAR     := jar
+JFLAGS  := cmfv
+CFLAGS  := -Xlint
+LDFLAGS :=
+LIBS    :=
+.SUFFIXES: .java .class
+MANIFEST_FILE := manifest.txt
+
+echo_cmd = @echo   "  $(1)$(ECHO_FILE_NAME)" ; $(2)
+
+MAKE := $(MAKE) --no-print-directory --silent
+CC   := $(call echo_cmd,CC      ,$(CC))
+LD   := $(call echo_cmd,LD      ,$(LD))
+RM   := $(call echo_cmd,RM      ,$(RM))
+
+usage:
+	@echo ""
+	@echo "Makefile for the compiler."
+	@echo ""
+	@echo "Usage:"
+	@echo "	make all        # Compile everything"
+	@echo "	make clean      # Remove all object files"
+	@echo "	make clean_all  # Remove all object files and the binary"
+	@echo ""
+
+MAIN_DIR		= $(COMPILER_DIR)
+LEXICAL_DIR		= $(COMPILER_DIR)/lexical
+SEMANTIC_DIR 	= $(COMPILER_DIR)/semantic
+
+SRCS =	$(LEXICAL_DIR)/Lexical.java \
+		$(SEMANTIC_DIR)/Semantic.java \
+		$(MAIN_DIR)/Main.java
+		
+
+all: $(SRCS) compiler.jar
+
+OBJS = $(SRCS:.java=.class)
+
+compiler.jar:  $(OBJS)
+	$(JAR) $(JFLAGS) $(MANIFEST_FILE) compiler.jar $(OBJS)
+
+.java.class:
+	$(CC) $(CFLAGS) $<
+
+clean:
+	$(RM) $(OBJS)
+
+clean_all:
+	$(RM) $(OBJS) compiler.jar
