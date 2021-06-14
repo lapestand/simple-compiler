@@ -1,7 +1,17 @@
 package compiler.lexical;
 
+import java.io.File;
+
 public class Lexical {
-    public void test(){
-        System.out.println("lexical.java Calisiyor...");
+    public void parse(){
+        System.out.println("Lexical parsing started.");
+    }
+
+    public String extractSourceCode(String sourceFileContent){
+        String sourceCode = new String();
+
+        
+
+        return sourceCode;
     }
 }
