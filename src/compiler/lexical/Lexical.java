@@ -35,7 +35,6 @@ public class Lexical {
         this.lines = lines;
         String currentLine = new String();
         List <String> words = new ArrayList<String>();
-        StringBuilder tmp = new StringBuilder();
         String tmp = new String();
 
         for (int i = 0; i < lines.size(); i++) {
