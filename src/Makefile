@@ -47,6 +47,8 @@ SEMANTIC_DIR 	= $(COMPILER_DIR)/semantic
 
 SRCS =	$(LEXICAL_DIR)/Lexical.java \
 		$(SEMANTIC_DIR)/Semantic.java \
+		$(SEMANTIC_DIR)/SymbolTable.java \
+		$(SEMANTIC_DIR)/Row.java \
 		$(MAIN_DIR)/Main.java
 		
 
