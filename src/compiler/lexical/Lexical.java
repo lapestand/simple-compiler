@@ -3,12 +3,15 @@ package compiler.lexical;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Lexical {
     public String sourceCode;
     private int currentLineIdx;
     private List <String> lines;
     private List <String> reservedWords;
+    private List <String> punctuations;
 
     private String ASSIGN_OP;
 
@@ -17,8 +20,11 @@ public class Lexical {
         this.reservedWords = new ArrayList<>(Arrays.asList(
             "read", "write", "if", "then", "end", "else", "repeat", "until"
         ));
+        
+        this.punctuations = new ArrayList<>(Arrays.asList(
+            ";", "<", "\\+", "-", "\\*", "/", ":=", "=", "*" 
+        ));
 
-        // , ";", "<", "\\+", "-", "\\*", "/", ":=", "=" 
         this.ASSIGN_OP = ":=";
 
         this.currentLineIdx = 0;
@@ -41,21 +47,40 @@ public class Lexical {
             currentLine = lines.get(i);
             this.currentLineIdx = i;
             if (!currentLine.isEmpty()) {
-                words = Arrays.asList(currentLine.split("\\s+"));
+                // words = Arrays.asList(currentLine.split("\\s+"));
+                words = Stream.of(currentLine.split("\\s+")).collect(Collectors.toCollection(ArrayList::new));
+                words.removeIf(item -> item == null || "".equals(item));
+                
+                if (words.get(words.size() - 1).contains(";")) {
+                    words.set(
+                        words.size() - 1,
+                        words.get(words.size() - 1).substring(
+                            0, words.get(words.size() - 1).length() - 1)
+                    );
+                    words.add(";");
+                }
 
 
-                System.out.println(i + ": " + currentLine);
+                System.out.println((i + 1) + ": " + currentLine);
                 for (String word : words) {
-                    tmp = "";
-                    if (word.startsWith(" ")) {
-                        tmp += "\t" + i;
-                    } else {
-                        tmp += i;
-                    }
+                    tmp = "\t" + (i + 1) + ": ";
+                    
+                    System.out.print(tmp);
                     if (this.reservedWords.contains(word)) {
-                        
+                        System.out.println("reserved word: " + word);
+                    }else if (this.punctuations.contains(word)) {
+                        System.out.println(word);
+                    } else if (this.isID(word)) {
+                        System.out.println("ID, name= [" + word + "]");
+                    } else if (this.isNum(word)) {
+                        System.out.println("NUM, name= [" + word + "]");
+                    } else {
+                        // ERROR DON'T FORGET
+                        System.out.print("UNKNOWN, name= [" + word + "] ");
+                        System.out.println(word.matches("[0-9]+"));
                     }
                 }
+                System.out.println();
             }
         }
     }
@@ -125,11 +150,11 @@ public class Lexical {
     }
 
     private boolean isID(String word) {
-        return word.matches("[a-z][A-Z]+");
+        return word.matches("^[A-Za-z]+$");
     }
 
     private boolean isNum(String word) {
-        return word.matches("[0-9]+");
+        return word.matches("^[0-9]+$");
     }
 
     private boolean isFactor(String word) {

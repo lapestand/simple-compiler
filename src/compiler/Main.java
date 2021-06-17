@@ -3,7 +3,6 @@ package compiler;
 import compiler.lexical.Lexical;
 import compiler.semantic.Semantic;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        boolean SHOW_SYMBOL_TABLE = false, SHOW_SOURCE_CODE = true;
+        boolean SYMBOL_TABLE = false, SOURCE_CODE = false, SYNTAX_TREE = false, TYPE_CHECKING = false;
 
 
         List <String> lines = new ArrayList<String>();
@@ -29,22 +28,27 @@ public class Main {
             // System.out.println("File: \"" + fileName + "\"");
 
 
-            if (SHOW_SOURCE_CODE) {
+            if (SOURCE_CODE) {
                 System.out.println("\n\n------------------------------\n\n");
                 System.out.println("Source code: " + fileName);
                 lexicalAnalyser.printSourceCode(lines);
             }
 
-
-
-            if (SHOW_SYMBOL_TABLE) {
+            if (SYNTAX_TREE) {
                 System.out.println("\n\n------------------------------\n\n");
-                System.out.println("Symbol Table: " + fileName);
-                semanticAnalyser.printSemanticTable(lines);        
+                System.out.println("Syntax Tree: " + fileName);
+                semanticAnalyser.printSyntaxTree(lines);
             }
             
+            if (SYMBOL_TABLE) {
+                System.out.println("\n\n------------------------------\n\n");
+                System.out.println("Symbol Table: " + fileName);
+                semanticAnalyser.printSemanticTable(lines);
+            }
             
-            System.out.println("\n\nChecking Types...");
+            if (TYPE_CHECKING) {
+                System.out.println("\n\nChecking Types...");
+            }
 
             // Files.writeString(fileName, fileContent);
         } catch (ArrayIndexOutOfBoundsException e) {

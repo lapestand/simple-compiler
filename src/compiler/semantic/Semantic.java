@@ -20,7 +20,6 @@ public class Semantic {
 
     public void printSemanticTable(List<String> lines) {
         String line = new String();
-        List <String> newLines = new ArrayList <String>();
         List <String> lineContent;
         SymbolTable symbolTable = new SymbolTable();
         for (int i = 0; i < lines.size(); i++) {
@@ -42,5 +41,9 @@ public class Semantic {
         }
 
         symbolTable.printTable();
+    }
+
+    public void printSyntaxTree(List<String> lines) {
+
     }
 }
