@@ -20,11 +20,7 @@ public class AssignStatement extends Statement {
     }
 
     public void print() {
-
-        this.helper.printTab(this.in);
-        System.out.println("Assign to: " + this.assignTo);
-
-        
+        this.helper.printTab(this.in); System.out.println("Assign to: " + this.assignTo);
 
         if (assignFrom.size() > 1) {
             this.helper.printTab(this.in + 1); System.out.println("Op: " + this.assignFrom.get(1));
@@ -33,7 +29,6 @@ public class AssignStatement extends Statement {
         } else {
             this.helper.printTab(this.in + 1); this.helper.printFactor(this.assignFrom.get(0));
         }
-
     }
 
     public boolean parse() {
@@ -47,18 +42,14 @@ public class AssignStatement extends Statement {
             (!words.get(words.size() - 1).equals(";")) || 
             (!this.helper.isID(words.get(0))) ||
             (words.subList(2, words.size() - 1).stream().anyMatch(element -> rightOps.contains(element)))
-            ) {
+        ) {
             this.errorLine = this.startIdx;
             return false;
         }
 
         this.assignTo = words.get(0);
-        // assignFrom = this.codeLines.get(this.startIdx).substring(this.codeLines.get(this.startIdx).indexOf(":=") + 3, this.codeLines.get(this.startIdx).length() - 1);
-
         this.assignFrom = words.subList(2, words.size() - 1);
-        
         return true;
     }
-
     
 }

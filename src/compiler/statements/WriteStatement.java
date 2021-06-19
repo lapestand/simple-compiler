@@ -42,20 +42,9 @@ public class WriteStatement extends Statement {
     }
 
     public void print() {
-        int t = this.in;
-
-        while (t > 0) {
-            System.out.print("\t");
-        }
-
-        System.out.println("Write");
-        t = this.in + 1;
-
-        while (t > 0) {
-            System.out.print("\t");
-            t = t - 1;
-        }
-
+        this.helper.printTab(this.in); System.out.println("Write");
+        
+        this.helper.printTab(this.in + 1); 
         if (helper.isID(this.expr)) {
             System.out.print("Id: ");
         } else if (helper.isNum(this.expr)) {

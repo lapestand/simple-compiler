@@ -25,15 +25,16 @@ public class Helper {
     }
 
 
-    public boolean isID(String word) {
-        return word.matches("^[A-Za-z]+$");
-    }
+    public boolean isID(String word) { return word.matches("^[A-Za-z]+$"); }
 
-    public boolean isNum(String word) {
-        return word.matches("^[0-9]+$");
-    }
+    public boolean isNum(String word) { return word.matches("^[0-9]+$"); }
 
     public void printTab(int in) { while (in > 0) { System.out.print("\t"); in = in - 1; } }
+
+    public void printFactor(String factor) {
+        if (this.isID(factor)) { System.out.println("Id: " + factor); }
+        else { System.out.println("Const: " + factor); }
+    }
 
     public boolean isExpr(List <String> words) {
 
@@ -153,11 +154,5 @@ public class Helper {
         return true;*/
     }
 
-    public void printFactor(String factor) {
-        if (this.isID(factor)) {
-            System.out.println("Id: " + factor);
-        } else {
-            System.out.println("Const: " + factor);
-        }
-    }
+    
 }
