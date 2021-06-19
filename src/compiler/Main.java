@@ -2,6 +2,7 @@ package compiler;
 
 import compiler.lexical.Lexical;
 import compiler.semantic.Semantic;
+import helper.Helper;
 
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        boolean SYMBOL_TABLE = false, SOURCE_CODE = false, SYNTAX_TREE = false, TYPE_CHECKING = false;
+        boolean SYMBOL_TABLE = false, SOURCE_CODE = false, SYNTAX_TREE = true, TYPE_CHECKING = false;
 
 
         List <String> lines = new ArrayList<String>();
@@ -49,6 +50,12 @@ public class Main {
             if (TYPE_CHECKING) {
                 System.out.println("\n\nChecking Types...");
             }
+
+
+            /*
+            Helper helper = new Helper();
+
+            helper.isExpr(helper.parseLine("first + second"));*/
 
             // Files.writeString(fileName, fileContent);
         } catch (ArrayIndexOutOfBoundsException e) {

@@ -8,7 +8,9 @@
 SHELL := /bin/sh
 MAKE  := make
 ROOT  := ../src
-COMPILER_DIR  := ./compiler
+COMPILER_PKG  := ./compiler
+HELPER_PKG	  := ./helper
+UTIL_PKG	  := ./utilities
 
 # Directories
 # INCLUDES := ./compiler
@@ -41,11 +43,22 @@ usage:
 	@echo "	make clean_all  # Remove all object files and the binary"
 	@echo ""
 
-MAIN_DIR		= $(COMPILER_DIR)
-LEXICAL_DIR		= $(COMPILER_DIR)/lexical
-SEMANTIC_DIR 	= $(COMPILER_DIR)/semantic
+MAIN_DIR		= $(COMPILER_PKG)
+LEXICAL_DIR		= $(COMPILER_PKG)/lexical
+SEMANTIC_DIR 	= $(COMPILER_PKG)/semantic
+HELPER_DIR		= $(HELPER_PKG)
+UTIL_DIR		= $(UTIL_PKG)
+STATEMENT_DIR   = $(COMPILER_PKG)/statements
 
-SRCS =	$(LEXICAL_DIR)/Lexical.java \
+SRCS =	$(HELPER_DIR)/Helper.java \
+		$(UTIL_DIR)/Console.java \
+		$(STATEMENT_DIR)/Statement.java \
+		$(STATEMENT_DIR)/ReadStatement.java \
+		$(STATEMENT_DIR)/WriteStatement.java \
+		$(STATEMENT_DIR)/AssignStatement.java \
+		$(STATEMENT_DIR)/IfStatement.java \
+		$(STATEMENT_DIR)/RepeatStatement.java \
+		$(LEXICAL_DIR)/Lexical.java \
 		$(SEMANTIC_DIR)/Semantic.java \
 		$(SEMANTIC_DIR)/SymbolTable.java \
 		$(SEMANTIC_DIR)/Row.java \
