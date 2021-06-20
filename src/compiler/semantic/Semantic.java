@@ -15,11 +15,12 @@ public class Semantic {
     private List <String> lines;
     private Helper helper;
     private List <String> lineSyntaxList;
+    private List <Statement> statements;
 
     int ID_EXPECTED = 0;
 
     public Semantic() {
-
+        this.statements = new ArrayList <Statement>();
         this.helper = new Helper();
         this.removeList = new ArrayList<>(Arrays.asList(
             "read", "write", "if", "then", "end", "else", "repeat",
@@ -27,50 +28,46 @@ public class Semantic {
         this.lineSyntaxList = new ArrayList <String>();
     }
 
-    public void printSyntaxTree(List <String> lines){
+    private boolean parse(List <String> lines) {
         this.lines = lines;
         List <String> words;
-        List <Statement> statements = new ArrayList <Statement>();
         for (int i = 0; i < lines.size(); i++) {
-            if (!lines.get(i).isEmpty()) {
+            if (!lines.get(i).isBlank()) {
                 words = this.helper.parseLine(lines.get(i));
 
                 if (words.get(0).equals("read")){
-                    statements.add(new ReadStatement(this.lines, i, 0));
-                    if (!statements.get(statements.size() - 1).parse()) {
-                        System.out.println("UNEXPECTED SYNTAX AT LINE " + statements.get(statements.size() - 1).errorLine());
-                    }
+                    this.statements.add(new ReadStatement(this.lines, i, 0));
                 } else if (words.get(0).equals("write")) {
-                    statements.add(new WriteStatement(this.lines, i, 0));
-                    if (!statements.get(statements.size() - 1).parse()) {
-                        System.out.println("UNEXPECTED SYNTAX AT LINE" + i);
-                    }
+                    this.statements.add(new WriteStatement(this.lines, i, 0));
                 } else if (words.get(0).equals("if")) {
-                    statements.add(new IfStatement(this.lines, i, 0));
-                    if (!statements.get(statements.size() - 1).parse()) {
-                        System.out.println("UNEXPECTED SYNTAX AT LINE" + i);
-                    }
+                    this.statements.add(new IfStatement(this.lines, i, 0));
                 } else if (words.get(0).equals("repeat")) {
-                    statements.add(new RepeatStatement(this.lines, i, 0));
-                    if (!statements.get(statements.size() - 1).parse()) {
-                        System.out.println("UNEXPECTED SYNTAX AT LINE" + i);
-                    }
+                    this.statements.add(new RepeatStatement(this.lines, i, 0));
                 } else if (words.size() > 1 && words.get(1).equals(":=")) {
-                    statements.add(new AssignStatement(this.lines, i, 0));
-                    if (!statements.get(statements.size() - 1).parse()) {
-                        System.out.println("UNEXPECTED SYNTAX AT LINE" + i);
-                    }
-                } else if (words.get(0).equals("end")) {
-                    System.out.println("END ST");   
+                    this.statements.add(new AssignStatement(this.lines, i, 0));
                 } else {
                     System.out.println("UNEXPECTED SYNTAX AT LINE " + i);
                 }
-                System.out.println(words);
+
+                if (!this.statements.get(this.statements.size() - 1).parse()) {
+                    System.out.println("UNEXPECTED SYNTAX AT LINE " + this.statements.get(this.statements.size() - 1).errorLine());
+                    return false;
+                }
+
+                i = this.statements.get(this.statements.size() - 1).endIdx;
+                // this.helper.printStatementType(this.statements.get(this.statements.size() - 1).ST); System.out.println(" Start Index: " + this.statements.get(this.statements.size() - 1).startIdx + "\tEnd Index: " + this.statements.get(this.statements.size() - 1).endIdx);
+
+
+                // System.out.println(words);
             }
         }
+        return true;
+    }
 
+    public void printSyntaxTree(List <String> lines){
+        this.parse(lines);
         System.out.println("\n\n\n");
-        for (Statement statement : statements) {
+        for (Statement statement : this.statements) {
             statement.print();
         }
     }

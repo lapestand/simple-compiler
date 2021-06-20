@@ -7,11 +7,11 @@ import helper.Helper;
 public class WriteStatement extends Statement {
 
     String expr;
-    int in;
 
     public WriteStatement(List<String> codeLines, int startIdx, int in) {
         this.codeLines = codeLines;
         this.startIdx = startIdx;
+        this.endIdx = startIdx;
         this.helper = new Helper();
         this.ST = WRITE_ST;
         this.in = in;
@@ -29,17 +29,11 @@ public class WriteStatement extends Statement {
             this.errorLine = this.startIdx;
             return false;
         }
-        
-        // read n;
         this.expr = words.get(1);
-
-        System.out.println("\n\n" + this.expr + "\n\n");
-        System.out.println("\n\n" + words + "\n\n");
         return true;
-
-        // this.id = words.get(1);
-        
     }
+
+    public String errorLine(){ return Integer.toString(this.errorLine); }
 
     public void print() {
         this.helper.printTab(this.in); System.out.println("Write");

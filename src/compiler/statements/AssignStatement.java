@@ -10,11 +10,12 @@ public class AssignStatement extends Statement {
 
     String assignTo;
     List <String> assignFrom;
-    int in;
+
     public AssignStatement(List<String> codeLines, int startIdx, int in) {
         this.ST = ASSIGN_ST;
         this.codeLines = codeLines;
         this.startIdx = startIdx;
+        this.endIdx = startIdx;
         this.helper = new Helper();
         this.in = in;
     }
@@ -51,5 +52,6 @@ public class AssignStatement extends Statement {
         this.assignFrom = words.subList(2, words.size() - 1);
         return true;
     }
-    
+
+    public String errorLine(){ return Integer.toString(this.errorLine); }
 }

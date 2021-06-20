@@ -12,6 +12,7 @@ public class ReadStatement extends Statement {
     public ReadStatement(List<String> codeLines, int startIdx, int in) {
         this.codeLines = codeLines;
         this.startIdx = startIdx;
+        this.endIdx = startIdx;
         this.helper = new Helper();
         this.ST = READ_ST;
         this.id = new String();

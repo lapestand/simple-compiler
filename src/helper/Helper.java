@@ -154,5 +154,25 @@ public class Helper {
         return true;*/
     }
 
+    public void printStatementType(int st) {
+        int IF_ST = 0, REPEAT_ST = 1, ASSIGN_ST = 2, READ_ST = 3, WRITE_ST = 4;
+
+        if (st == IF_ST) {
+            System.out.print("STATEMENT == IF_ST");
+        } else if (st == REPEAT_ST ) {
+            System.out.print("STATEMENT == REPEAT_ST");
+            
+        } else if (st == ASSIGN_ST) {
+            System.out.print("STATEMENT == ASSIGN_ST");
+            
+        } else if (st == READ_ST) {
+            System.out.print("STATEMENT == READ_ST");
+            
+        } else if (st == WRITE_ST) {
+            System.out.print("STATEMENT == WRITE_ST");
+            
+        }
+    }
+
     
 }
