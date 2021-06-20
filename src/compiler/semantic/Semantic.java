@@ -16,6 +16,7 @@ public class Semantic {
     private Helper helper;
     private List <String> lineSyntaxList;
     private List <Statement> statements;
+    private List <String> errors;
 
     int ID_EXPECTED = 0;
 
@@ -46,11 +47,12 @@ public class Semantic {
                 } else if (words.size() > 1 && words.get(1).equals(":=")) {
                     this.statements.add(new AssignStatement(this.lines, i, 0));
                 } else {
-                    System.out.println("UNEXPECTED SYNTAX AT LINE " + i);
+                    System.out.println("UNEXPECTED SYNTAX AT LINE " + (i + 1));
+                    return false;
                 }
 
                 if (!this.statements.get(this.statements.size() - 1).parse()) {
-                    System.out.println("UNEXPECTED SYNTAX AT LINE " + this.statements.get(this.statements.size() - 1).errorLine());
+                    System.out.println("UNEXPECTED SYNTAX AT LINE " + Integer.parseInt(this.statements.get(this.statements.size() - 1).errorLine()) + 1);
                     return false;
                 }
 
@@ -65,7 +67,9 @@ public class Semantic {
     }
 
     public void printSyntaxTree(List <String> lines){
-        this.parse(lines);
+        if (!this.parse(lines)) {
+            return;
+        }
         System.out.println("\n\n\n");
         for (Statement statement : this.statements) {
             statement.print();
@@ -98,7 +102,6 @@ public class Semantic {
         symbolTable.printTable();
     }
 
-
     private boolean isExpr(List <String> words) {
         //  simple-expr compop simple-expr
         for (int i = 0; i < words.size(); i++) {
@@ -112,5 +115,28 @@ public class Semantic {
     
     private int error_on(int lineIdx, int error_code) {
         return error_code;
+    }
+
+    public void checkTypes() {
+        boolean hasError = false;
+        for (Statement st : this.statements) {
+            st.checkTypes();
+            if (st.ST == Statement.IF_ST || st.ST == Statement.REPEAT_ST) {
+                if (!st.errors.isEmpty()) {
+                    hasError = true;
+                    for (String error : st.errors) {
+                        System.out.println(error);
+                    }
+                }
+            }
+        }
+
+        if (!hasError) {
+            System.out.println("No error!");
+        }
+    }
+
+    public List <Statement> statements() {
+        return this.statements;
     }
 }

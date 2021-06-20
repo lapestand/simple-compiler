@@ -1,5 +1,12 @@
 package helper;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -172,6 +179,25 @@ public class Helper {
             System.out.print("STATEMENT == WRITE_ST");
             
         }
+    }
+
+    public void createOutputFile(String fileName, List<String> codeLines) throws IOException {
+        fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+        fileName += ".tm";
+        try {
+            File myFile = new File(fileName);
+            if (myFile.exists()) { myFile.delete(); }
+            if (myFile.createNewFile()) {
+              System.out.println("Output File created: " + myFile.getName());
+            } else {
+              System.out.println("File already exists.");
+            }
+          } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        Path outFile = Paths.get(fileName);
+        Files.write(outFile, codeLines, Charset.defaultCharset());
     }
 
     

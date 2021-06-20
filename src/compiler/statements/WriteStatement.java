@@ -6,7 +6,7 @@ import helper.Helper;
 
 public class WriteStatement extends Statement {
 
-    String expr;
+    public String expr;
 
     public WriteStatement(List<String> codeLines, int startIdx, int in) {
         this.codeLines = codeLines;
@@ -47,5 +47,9 @@ public class WriteStatement extends Statement {
             System.out.println("SYNTAX ERROR");
         }
         System.out.println(this.expr);
+    }
+
+    public String expr() {
+        return this.expr;
     }
 }

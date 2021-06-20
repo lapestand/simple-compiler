@@ -1,5 +1,6 @@
 read n;
 next := 0;
+n := next;
 first := 0;
 second := 1;
 c := 0;

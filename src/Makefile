@@ -46,6 +46,7 @@ usage:
 MAIN_DIR		= $(COMPILER_PKG)
 LEXICAL_DIR		= $(COMPILER_PKG)/lexical
 SEMANTIC_DIR 	= $(COMPILER_PKG)/semantic
+CODEGEN_DIR		= $(COMPILER_PKG)/codegen
 HELPER_DIR		= $(HELPER_PKG)
 UTIL_DIR		= $(UTIL_PKG)
 STATEMENT_DIR   = $(COMPILER_PKG)/statements
@@ -62,6 +63,7 @@ SRCS =	$(HELPER_DIR)/Helper.java \
 		$(SEMANTIC_DIR)/Semantic.java \
 		$(SEMANTIC_DIR)/SymbolTable.java \
 		$(SEMANTIC_DIR)/Row.java \
+		$(CODEGEN_DIR)/CodeGeneration.java \
 		$(MAIN_DIR)/Main.java
 		
 

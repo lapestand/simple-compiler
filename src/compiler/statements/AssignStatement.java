@@ -8,8 +8,8 @@ import helper.Helper;
 
 public class AssignStatement extends Statement {
 
-    String assignTo;
-    List <String> assignFrom;
+    public String assignTo;
+    public List <String> assignFrom;
 
     public AssignStatement(List<String> codeLines, int startIdx, int in) {
         this.ST = ASSIGN_ST;

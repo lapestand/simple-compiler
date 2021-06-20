@@ -18,6 +18,7 @@ public class RepeatStatement extends Statement {
         this.repeatList = new ArrayList<Statement>();
         this.helper = new Helper();
         this.until = new ArrayList<String>();
+        this.errors = new ArrayList<String>();
     }
     
     public void print() {
@@ -128,4 +129,17 @@ public class RepeatStatement extends Statement {
     }
 
     public String errorLine(){ return Integer.toString(this.errorLine); }
+
+    public void checkTypes() {
+        if (!compareOps.contains(this.until.get(1))) {
+            this.errors.add(new String("Type error at line " + Integer.toString(this.endIdx + 1) + ": until test is not Boolean"));
+        }
+
+        for (Statement st : this.repeatList) {
+            if (st.ST == IF_ST || st.ST == REPEAT_ST) {
+                st.checkTypes();
+                this.errors.addAll(st.errors);
+            }
+        }
+    }
 }

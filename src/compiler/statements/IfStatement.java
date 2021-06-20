@@ -19,6 +19,7 @@ public class IfStatement extends Statement {
         this.ifList = new ArrayList<Statement>();
         this.elseList = new ArrayList<Statement>();
         this.hasElse = false;
+        this.errors = new ArrayList<String>();
         this.condition = new ArrayList<String>();
     }
 
@@ -152,4 +153,25 @@ public class IfStatement extends Statement {
     }
 
     public String errorLine(){ return Integer.toString(this.errorLine); }
+
+    public void checkTypes() {
+        if (!compareOps.contains(this.condition.get(1))) {
+            this.errors.add(new String("Type error at line " + Integer.toString(this.startIdx + 1) + ": if test is not Boolean"));
+        }
+
+        for (Statement st : this.ifList) {
+            if (st.ST == IF_ST || st.ST == REPEAT_ST) {
+                st.checkTypes();
+                this.errors.addAll(st.errors);                
+            }
+        }
+        
+        for (Statement st : this.elseList) {
+            if (st.ST == IF_ST || st.ST == REPEAT_ST) {
+                st.checkTypes();
+                this.errors.addAll(st.errors);                
+            }
+        }
+
+    }
 }

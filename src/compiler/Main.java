@@ -2,6 +2,7 @@ package compiler;
 
 import compiler.lexical.Lexical;
 import compiler.semantic.Semantic;
+import compiler.codegen.CodeGeneration;
 import helper.Helper;
 
 import java.nio.file.Files;
@@ -12,16 +13,13 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        boolean SYMBOL_TABLE = false, SOURCE_CODE = false, SYNTAX_TREE = true, TYPE_CHECKING = false;
-
-
+        boolean SYMBOL_TABLE = true, SOURCE_CODE = true, SYNTAX_TREE = true, TYPE_CHECKING = true, CODE_GEN = true;
+        Helper helper = new Helper();
         List <String> lines = new ArrayList<String>();
-
         Lexical lexicalAnalyser = new Lexical();
         Semantic semanticAnalyser = new Semantic();
+        CodeGeneration generator = new CodeGeneration(7);
 
-        
-        
         try {
             Path fileName = Path.of(args[0]);
             
@@ -49,11 +47,20 @@ public class Main {
             
             if (TYPE_CHECKING) {
                 System.out.println("\n\nChecking Types...");
+                semanticAnalyser.checkTypes();
             }
 
+            if (CODE_GEN) {
+                System.out.println();
+                generator.parse(semanticAnalyser.statements());
+                generator.print();
+            }
+            
+            helper.createOutputFile(fileName.getFileName().toString(), generator.codeLines);
 
+            
             /*
-            Helper helper = new Helper();
+            
 
             helper.isExpr(helper.parseLine("first + second"));*/
 
