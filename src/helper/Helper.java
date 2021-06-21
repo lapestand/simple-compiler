@@ -31,7 +31,6 @@ public class Helper {
         return words;
     }
 
-
     public boolean isID(String word) { return word.matches("^[A-Za-z]+$"); }
 
     public boolean isNum(String word) { return word.matches("^[0-9]+$"); }

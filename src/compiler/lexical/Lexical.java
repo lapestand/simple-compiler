@@ -37,7 +37,6 @@ public class Lexical {
         System.out.println("Lexical parsing started.");
     }
 
-
     public void printSourceCode(List <String> lines) {
         this.lines = lines;
         String currentLine = new String();

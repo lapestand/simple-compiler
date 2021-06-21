@@ -49,7 +49,5 @@ public class WriteStatement extends Statement {
         System.out.println(this.expr);
     }
 
-    public String expr() {
-        return this.expr;
-    }
+    public String expr() { return this.expr; }
 }

@@ -19,6 +19,7 @@ public class Semantic {
     private List <String> errors;
 
     int ID_EXPECTED = 0;
+    public boolean isParsed;
 
     public Semantic() {
         this.statements = new ArrayList <Statement>();
@@ -27,6 +28,7 @@ public class Semantic {
             "read", "write", "if", "then", "end", "else", "repeat",
             "until", ";", "<", "\\+", "-", "\\*", "/", ":=", "=" ));
         this.lineSyntaxList = new ArrayList <String>();
+        this.isParsed = true;
     }
 
     private boolean parse(List <String> lines) {
@@ -68,12 +70,15 @@ public class Semantic {
 
     public void printSyntaxTree(List <String> lines){
         if (!this.parse(lines)) {
+            this.isParsed = false;
             return;
         }
+
         System.out.println("\n\n\n");
         for (Statement statement : this.statements) {
             statement.print();
         }
+
     }
 
     public void printSemanticTable(List<String> lines) {
@@ -117,7 +122,7 @@ public class Semantic {
         return error_code;
     }
 
-    public void checkTypes() {
+    public boolean checkTypes() {
         boolean hasError = false;
         for (Statement st : this.statements) {
             st.checkTypes();
@@ -134,6 +139,7 @@ public class Semantic {
         if (!hasError) {
             System.out.println("No error!");
         }
+        return !hasError;
     }
 
     public List <Statement> statements() {

@@ -23,6 +23,7 @@ public class CodeGeneration {
     private Helper helper;
     private String notReadyStatement;
     private int tempCount;
+    public boolean isParsed;
 
     public CodeGeneration(int pc) {
         this.codeLines = new ArrayList<String>();
@@ -42,21 +43,30 @@ public class CodeGeneration {
 
 
     public void print() {
-        System.out.println();
-        for (String codeLine : this.codeLines) {
-            System.out.println(codeLine);
+        if (this.isParsed) {
+            System.out.println();
+            for (String codeLine : this.codeLines) {
+                System.out.println(codeLine);
+            }    
         }
     }
     
     public void parse(List<Statement> statements){
-        if (this.check) {
-            System.out.println("CodeGeneration parsing started.");
-            
-            for (Statement statement : statements) {
-                this.codeLines.addAll(this.parseStatement(statement));
+        try {
+            if (this.check) {
+                System.out.println("CodeGeneration parsing started.");
+                
+                for (Statement statement : statements) {
+                    this.codeLines.addAll(this.parseStatement(statement));
+                }
+                
+                this.codeLines.add("HALT 0,0,0");
+                this.isParsed = true;
+            } else {
+                this.isParsed = false;
             }
-            
-            this.codeLines.add("HALT 0,0,0");
+        } catch (Exception e) {
+            this.isParsed = false;
         }
     }
 
