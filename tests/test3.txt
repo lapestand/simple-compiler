@@ -1,0 +1,10 @@
+read n;
+next := 0;
+n := next;
+x := n;
+g := x + 1;
+first := 0;
+second := 1;
+c := 0;
+
+d := 3 / 2;
