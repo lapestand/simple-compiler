@@ -1,4 +1,4 @@
-# network-time-protocol-java
+# simple-compiler
 
 simple-compiler is Java program for compile a simple language.
 
